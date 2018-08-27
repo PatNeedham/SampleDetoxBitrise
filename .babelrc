@@ -1,3 +1,4 @@
 {
-  "presets": ["@babel/preset-react", "stage-0", "react-native"]
+  "presets": ["@babel/preset-flow", "react-native"],
+  "plugins": ["@babel/plugin-proposal-function-bind"]
 }

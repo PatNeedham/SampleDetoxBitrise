@@ -61,7 +61,7 @@ workflows:
                 npm install -g detox-cli
                 detox clean-framework-cache && detox build-framework-cache
                 detox build --configuration ios.sim.release
-                node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.js --platform ios --reset-cache --bundle-output Build/Products/Debug-iphonesimulator/{myApp}.app/main.jsbundle --assets-dest Build/Products/Debug-iphonesimulator/SampleDetoxBitrise.app
+                node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.js --platform ios --reset-cache --bundle-output Build/Products/Debug-iphonesimulator/SampleDetoxBitrise.app/main.jsbundle --assets-dest Build/Products/Debug-iphonesimulator/SampleDetoxBitrise.app
                 detox test verbose --configuration ios.sim.release --cleanup
           title: detox E2E test
       - cache-push@2.0.5:
