@@ -1,0 +1,43 @@
+format_version: "5"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+trigger_map:
+  - push_branch: "*"
+    workflow: primary
+  - pull_request_source_branch: "*"
+    workflow: primary
+workflows:
+  primary:
+    steps:
+      - activate-ssh-key@3.1.1:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.11: {}
+      - npm@0.9.1:
+          inputs:
+            - command: install
+      - script@1.1.5:
+          title: Pod install
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                cd ios/
+                pod install
+                cd ../
+      - ios-auto-provision@1.1.4:
+          inputs:
+            - team_id: 58J267M5H9
+            - configuration: Release
+            - distribution_type: app-store
+      - xcode-archive@2.4.14:
+          inputs:
+            - project_path: ./ios/SampleDetoxBitrise.xcworkspace
+            - scheme: SampleDetoxBitrise
+            - configuration: Release
+            - team_id: 58J267M5H9
+            - xcodebuild_options: "-allowProvisioningUpdates"
+      - deploy-to-itunesconnect-shenzhen@2.1.2:
+          inputs:
+            - password: "$APPLE_LOGIN_PASSWORD"
+            - app_id: "1434343845"
+            - itunescon_user: needham.patrick@gmail.com
+      - deploy-to-bitrise-io@1.3.12: {}
